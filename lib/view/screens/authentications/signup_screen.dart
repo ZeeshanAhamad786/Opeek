@@ -109,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 },
               )),
               getVerticalSpace(3.h),
-              CustomElevatedButton(text: "Sign-up ", onPressed: () {}),
+              Center(child: CustomElevatedButton(text: "Sign-up ", onPressed: () {})),
               getVerticalSpace(5.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

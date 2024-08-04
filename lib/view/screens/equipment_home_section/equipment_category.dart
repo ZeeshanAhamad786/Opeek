@@ -46,7 +46,8 @@ class _EquipmentCategoryState extends State<EquipmentCategory> {
           ],
         ),
       ),
-      body: ListView.builder(
+      body:
+      ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: categoryNames.length,
         itemBuilder: (context, index) {

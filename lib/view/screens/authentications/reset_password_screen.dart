@@ -50,9 +50,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               CustomTextFormField(hintText: 'Your email address',controller: emailController,),
 
               getVerticalSpace(2.h),
-              CustomElevatedButton(text: "Next", onPressed: (){
-                Get.to(()=>VerificationScreen());
-              }),
+              Center(
+                child: CustomElevatedButton(text: "Next", onPressed: (){
+                  Get.to(()=>VerificationScreen());
+                }),
+              ),
 
 
             ],),

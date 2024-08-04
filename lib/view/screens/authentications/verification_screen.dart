@@ -88,11 +88,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ],
               ),
               SizedBox(height: 1.1.h),
-              CustomElevatedButton(
-                text: "Next",
-                onPressed: () {
-                 Get.to(()=>const CreateNewPassword());
-                },
+              Center(
+                child: CustomElevatedButton(
+                  text: "Next",
+                  onPressed: () {
+                   Get.to(()=>const CreateNewPassword());
+                  },
+                ),
               ),
 
             ],

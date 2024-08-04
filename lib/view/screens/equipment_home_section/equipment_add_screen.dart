@@ -10,25 +10,25 @@ import 'package:opeec/view/custom_widgets/custom_add_category_button.dart';
 import 'package:opeec/view/custom_widgets/custom_elevated_button.dart';
 import 'package:opeec/view/custom_widgets/sized_widget.dart';
 import 'package:opeec/view/screens/equipment_home_section/equipment_category.dart';
-import 'package:opeec/view/screens/equipment_home_section/show_equipment_name.dart';
+import 'package:opeec/view/screens/equipment_home_section/show_equipment_name_profile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../controller/utils/constant.dart';
 import '../../custom_widgets/custom_description_textfield.dart';
 import '../../custom_widgets/equipment_custom_field.dart';
 class EquipmentAddScreen extends StatefulWidget {
   const EquipmentAddScreen({super.key});
-
   @override
   State<EquipmentAddScreen> createState() => _EquipmentAddScreenState();
 }
-
 class _EquipmentAddScreenState extends State<EquipmentAddScreen> {
   RxInt selectedIndex = 0.obs; // -1 indicates no selection
 
   void _onRadioButtonTap(int index) {
     selectedIndex.value = index;
   }
+  // void _onRadioButtonTap1(int index) {
+  //   selectedIndex.value = index;
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: Colors.white,
@@ -204,7 +204,7 @@ class _EquipmentAddScreenState extends State<EquipmentAddScreen> {
               Center(
                 child: CustomElevatedButton(width: 160.px,
                     text: "Submit", onPressed: (){
-                  Get.to(()=>const ShowEquipmentName());
+                  Get.to(()=>const ShowEquipmentNameProfile());
                     }),
               ),
               getVerticalSpace(2.h),getHorizontalSpace(2.h)

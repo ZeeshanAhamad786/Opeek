@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:opeec/controller/utils/my_color.dart';
 import 'package:opeec/view/custom_widgets/sized_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controller/utils/constant.dart';
 import '../../../model/inbox_main_chat_screen_model.dart';
+import '../chat_support_section/equipment_live_chat.dart';
 
 class InboxMainChatScreen extends StatelessWidget {
   const InboxMainChatScreen({super.key});
@@ -43,49 +46,52 @@ class InboxMainChatScreen extends StatelessWidget {
         time: '15m ago',
       ),
     ].obs;
-
     return Column(
       children: [
         getVerticalSpace(2.h),
         Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: items.length,
-            shrinkWrap: true,
+          child: GestureDetector(onTap:() {
 
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Get.to(() => ChatScreen());
-                    },
-                    child: ListTile(
-                      title: Text(
-                        items[index].title,
-                        style: Constant.textWithBlack,
-                      ),
-                      subtitle: Text(
-                        items[index].subtitle,
-                        style: Constant.textNameBlack2,
-                      ),
-                      leading: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundImage: AssetImage(items[index].imageUrl),
-                      ),
-                      trailing: Text(
-                        items[index].time,
-                        style: Constant.textNameBlack1,
+          },
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: items.length,
+              shrinkWrap: true,
+
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(()=>const EquipmentLiveChatScreen());
+                      },
+                      child: ListTile(
+                        title: Text(
+                          items[index].title,
+                          style: Constant.textWithBlack,
+                        ),
+                        subtitle: Text(
+                          items[index].subtitle,
+                          style: Constant.textNameBlack2,
+                        ),
+                        leading: CircleAvatar(
+                          maxRadius: 30,
+                          backgroundImage: AssetImage(items[index].imageUrl),
+                        ),
+                        trailing: Text(
+                          items[index].time,
+                          style: Constant.textNameBlack1,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 2.h),
-                    child: Divider(color: MyColor.greyColor,),
-                  )
-                ],
-              );
-            },
+                    Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 2.h),
+                      child: Divider(color: MyColor.greyColor,),
+                    )
+                  ],
+                );
+              },
+            ),
           ),
         ),
 

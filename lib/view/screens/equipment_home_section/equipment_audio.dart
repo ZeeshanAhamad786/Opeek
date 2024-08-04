@@ -45,7 +45,8 @@ class _EquipmentAudioState extends State<EquipmentAudio> {
           ],
         ),
       ),
-      body: ListView.builder(
+      body:
+      ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         itemCount: categoryName1.length,

@@ -3,8 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:opeec/controller/utils/my_color.dart';
 import 'package:opeec/view/custom_widgets/sized_widget.dart';
+import 'package:opeec/view/screens/profile_section/profile_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../controller/utils/constant.dart';
@@ -60,7 +63,10 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                     ],
                   ),
                 ),
-              Image.asset("assets/png/profileIcon.png",height: 40,width: 40,)
+              GestureDetector(onTap: () {
+                Get.to(()=>const ProfileScreen());
+              },
+                  child: Image.asset("assets/png/profileIcon.png",height: 40,width: 40,))
               ],
             ),
           getVerticalSpace(1.5.h),
@@ -112,9 +118,11 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                           ),
                         ),
                         getVerticalSpace(0.5.h),
-                        Text(
-                          profileNames[index],
-                          style: Constant.textAudioBlack
+                        Expanded(
+                          child: Text(
+                            profileNames[index],
+                            style: Constant.textAudioBlack
+                          ),
                         ),
                       ],
                     ),
@@ -123,36 +131,59 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
               },
             ),
           ),
+          getVerticalSpace(3.h),
           Expanded(
             child: GridView.builder(
+              padding: EdgeInsets.zero,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns
                 crossAxisSpacing: 1.w, // Space between columns
                 mainAxisSpacing: 2.h, // Space between rows
-                childAspectRatio: 0.7, // Adjust if necessary
+                childAspectRatio: 0.8, // Adjust if necessary
               ),
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final item = data[index];
                 return Padding(
-                  padding: EdgeInsets.all(2.w),
+                  padding: EdgeInsets.all(1.w),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: ClipRRect(borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            item.imageUrl,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ),
+                      Flexible(
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                item.imageUrl,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child:
+                            Obx(()=>  GestureDetector( onTap:(){
+                item.isFavorite.value = !item.isFavorite.value;
+
+                },
+                                child: Icon(
+                                  item.isFavorite.value ? Icons.favorite : Icons.favorite_border,
+                                  color: item.isFavorite.value ? Colors.orange : Colors.white,
+                                  size: 24,
+                                ),
+                              ),
+                            ),
+                            )
+                          ],
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Text(
                         item.construction,
-                        style:Constant.textConstructionBlack5,
+                        style: Constant.textConstructionBlack5,
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -163,7 +194,7 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                           Expanded(
                             child: Text(
                               item.name,
-                              style:Constant.textNameBlack7,
+                              style: Constant.textNameBlack7,
                               textAlign: TextAlign.left,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -180,7 +211,8 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                       Row(
                         children: [
                           RatingBar(
-                            filledIcon: Icons.star,filledColor:  MyColor.orangeColor1,
+                            filledIcon: Icons.star,
+                            filledColor: MyColor.orangeColor1,
                             size: 10,
                             emptyIcon: Icons.star_border,
                             onRatingChanged: (value) => debugPrint('$value'),
@@ -189,7 +221,11 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                           ),
                           SizedBox(width: 0.5.h),
                           Expanded(
-                              child: Text("5.0",style: Constant.textNameBlack8,))
+                            child: Text(
+                              "5.0",
+                              style: Constant.textNameBlack8,
+                            ),
+                          ),
                         ],
                       ),
                       getVerticalSpace(.5.h),
@@ -216,6 +252,7 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
               },
             ),
           )
+
 
         ],),
       ),

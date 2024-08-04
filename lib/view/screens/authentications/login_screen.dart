@@ -73,9 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                       child: Text("Forgot password",style: Constant.textForgotOrange,))),
               getVerticalSpace(3.h),
-              CustomElevatedButton(text: "Login", onPressed: (){
-                Get.to(()=>const BottomNavigationScreen());
-              }),
+              Center(
+                child: CustomElevatedButton(text: "Login", onPressed: (){
+                  Get.to(()=>const BottomNavigationScreen());
+                }),
+              ),
               getVerticalSpace(5.h),
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [

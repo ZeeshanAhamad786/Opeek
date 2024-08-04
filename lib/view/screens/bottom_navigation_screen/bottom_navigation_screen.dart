@@ -118,7 +118,7 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
           case 1:
             return const FavouriteHomeScreen();
           case 2:
-            return const EquipmentHomeScreen();
+            return const EquipmentHomeScreen(showButton: false,);
           case 3:
             return const InboxHomeScreen();
           case 4:

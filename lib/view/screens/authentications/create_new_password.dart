@@ -85,7 +85,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 },
               )),
               getVerticalSpace(3.h),
-              CustomElevatedButton(text: "Save", onPressed: (){})
+              Center(child: CustomElevatedButton(text: "Save", onPressed: (){}))
           ],),
         ),
       ),

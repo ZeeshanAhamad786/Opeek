@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:opeec/controller/utils/my_color.dart';
-import 'package:opeec/view/screens/rental_home_section/rented_none_equipment_screen.dart';
+import 'package:opeec/view/screens/rental_home_section/rented_history_screen.dart';
+import 'package:opeec/view/screens/rental_home_section/rented_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../controller/utils/constant.dart';
-import '../inbox_home_screen/inbox_no_message_screen.dart';
 
 class RentalHomeScreen extends StatefulWidget {
   const RentalHomeScreen({super.key});
@@ -68,13 +68,13 @@ class _RentalHomeScreenState extends State<RentalHomeScreen> {
                     ),
                   ),
                   SizedBox(height: 1.h), // Space between TabBar and TabBarView
-                  Expanded(
+                  const Expanded(
                     child: TabBarView(
                       children: [
                         // Content for Tab 1
-                        RentedNoneEquipmentScreen(),
+                        RentedScreen(),
                         // Content for Tab 2
-                        RentedNoneEquipmentScreen(),
+                        RentedHistoryScreen(),
 
                       ],
                     ),
