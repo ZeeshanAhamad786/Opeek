@@ -1,11 +1,10 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:opeec/view/screens/equipment_home_section/all_equipment_store_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controller/utils/my_color.dart';
 import '../../../controller/utils/constant.dart';
@@ -13,6 +12,7 @@ import '../../controller/utils/calender_controller.dart';
 import '../../controller/utils/range_controller.dart';
 import '../custom_widgets/search_customtextfield_screen.dart';
 import '../custom_widgets/sized_widget.dart';
+import '../screens/equipment_home_section/show_equipment_name_profile.dart';
 
 class MapViewScreen extends StatefulWidget {
   const MapViewScreen({super.key});
@@ -44,155 +44,160 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
   final CalendarController calendarController = Get.put(CalendarController());
   final RangeController rangeController = Get.put(RangeController());
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late GoogleMapController _controller;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              getVerticalSpace(8.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2.h),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Icon(Icons.arrow_back_ios_new),
-                    ),
-                    getHorizontalSpace(2.w),
-                    Expanded(
-                      child: SearchCustomTextFormField(
-                        hintText: 'Search equipment',
-                        prefixIcon: SvgPicture.asset("assets/svg/searchOrange.svg"),
-                      ),
-                    ),
-                    getHorizontalSpace(1.5.h),
-                    GestureDetector(
-                      onTap: () {
-                        showPaymentBottomSheet(context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: MyColor.greyColor2,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: SvgPicture.asset("assets/svg/step.svg"),
-                      ),
-                    ),
-                  ],
+         getVerticalSpace(8.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 2.h),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(Icons.arrow_back_ios_new),
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 8.h + 50,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              "assets/png/mapPhoto.png",
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height - (8.h + 150), // Fill the remaining screen height
+                getHorizontalSpace(2.w),
+                Expanded(
+                  child: SearchCustomTextFormField(
+                    hintText: 'Search equipment',
+                    prefixIcon: SvgPicture.asset("assets/svg/searchOrange.svg"),
+                  ),
+                ),
+                getHorizontalSpace(1.5.h),
+                GestureDetector(
+                  onTap: () {
+                    showPaymentBottomSheet(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: MyColor.greyColor2,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: SvgPicture.asset("assets/svg/step.svg"),
+                  ),
+                ),
+              ],
             ),
           ),
-          Positioned(
-            bottom: 20, // Adjust as needed
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.h),
-              child: GestureDetector(onTap: () {
-                Get.to(()=>const AllEquipmentStoreScreen());
-              },
-                child: Container(
-                  padding: EdgeInsets.only(right: 2.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: MyColor.greyColor1.withOpacity(0.1)),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 0,
-                        blurRadius: 8,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
+          SizedBox(height: 1.h), // Space between top section and map
+          Expanded(
+            child: Stack(
+              children: [
+                // Google Map at the bottom
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(37.42796133580664, -122.085749655962),
+                    zoom: 14.4746,
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        "assets/png/deliveryGlavz.png",
-                        height: 100.px,
-                        width: 120.px,
-                        fit: BoxFit.cover,
-                      ),
-                      SizedBox(width: 2.h),
-                      Expanded(
-                        child: Column(
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller = controller;
+                  },
+                ),
+                // Positioned widget on top of the map
+                Positioned(
+                  bottom: 20, // Adjust as needed
+                  left: 0,
+                  right: 0,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.h),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => const ShowEquipmentNameProfile());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(right: 2.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: MyColor.greyColor1.withOpacity(0.1)),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 0,
+                              blurRadius: 8,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            getVerticalSpace(2.h),
-                            Text("Construction", style: Constant.textBlackColor5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Rotary Tool", style: Constant.textBlackColor),
-                                Text("\$54/day", style: Constant.textForgotOrange),
-                              ],
+                            Image.asset(
+                              "assets/png/deliveryGlavz.png",
+                              height: 100.px,
+                              width: 120.px,
+                              fit: BoxFit.cover,
                             ),
-                            SizedBox(height: 1.5.h),
-                            Row(
-                              children: [
-                                RatingBar(
-                                  filledIcon: Icons.star,
-                                  filledColor: MyColor.orangeColor1,
-                                  size: 12,
-                                  emptyIcon: Icons.star_border,
-                                  onRatingChanged: (value) => debugPrint('$value'),
-                                  initialRating: 5,
-                                  maxRating: 5,
-                                ),
-                                SizedBox(width: 1.h),
-                                Text("5.0", style: Constant.textNameBlack8),
-                              ],
-                            ),
-                            SizedBox(height: 0.2.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset("assets/svg/location.svg"),
-                                getHorizontalSpace(.5.w),
-                                Expanded(
-                                  child: Text(
-                                    "Kent, Utah",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.grey,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.ellipsis,
+                            SizedBox(width: 2.h),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  getVerticalSpace(2.h),
+                                  Text("Construction", style: Constant.textBlackColor5),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Rotary Tool", style: Constant.textBlackColor),
+                                      Text("\$54/day", style: Constant.textForgotOrange),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  SizedBox(height: 1.5.h),
+                                  Row(
+                                    children: [
+                                      RatingBar(
+                                        filledIcon: Icons.star,
+                                        filledColor: MyColor.orangeColor1,
+                                        size: 12,
+                                        emptyIcon: Icons.star_border,
+                                        onRatingChanged: (value) => debugPrint('$value'),
+                                        initialRating: 5,
+                                        maxRating: 5,
+                                      ),
+                                      SizedBox(width: 1.h),
+                                      Text("5.0", style: Constant.textNameBlack8),
+                                    ],
+                                  ),
+                                  SizedBox(height: 0.2.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SvgPicture.asset("assets/svg/location.svg"),
+                                      getHorizontalSpace(.5.w),
+                                      Expanded(
+                                        child: Text(
+                                          "Kent, Utah",
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: Colors.grey,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
@@ -386,7 +391,31 @@ class _MapViewScreenState extends State<MapViewScreen> {
                 "Select Range",
                 style: Constant.textBlack1,
               ),
-              getVerticalSpace(1.5.h),
+              getVerticalSpace(.8.h),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Radius From: ",
+                      style: TextStyle(
+                        color: MyColor.blackColor, // Main text color
+                        fontWeight: FontWeight.w400, // Make the text bold
+                        fontSize: 16.px, // Set the font size
+                      ),
+                    ),
+                    TextSpan(
+                      text: "San Francisco, California, USA.",
+                      style: TextStyle(
+                        color: MyColor.orangeColor1, // Highlighted text color
+                        fontWeight: FontWeight.w400, // Make the text bold
+                        fontSize: 16.px, // Set the font size
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              getVerticalSpace(1.h),
               Obx(() => Column(
                     children: [
                       Slider(

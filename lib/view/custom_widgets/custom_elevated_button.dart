@@ -30,9 +30,13 @@ class CustomElevatedButton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: Text(
-          text,style: Constant.textSignUpWhite,
-          // style: Constant.loginSignUpButton,
+        child: FittedBox(fit: BoxFit.scaleDown,
+          child: Text(
+            text,style: Constant.textSignUpWhite,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            // style: Constant.loginSignUpButton,
+          ),
         ),
       ),
     );

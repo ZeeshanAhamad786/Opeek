@@ -52,7 +52,7 @@ class _EquipmentLiveChatScreenState extends State<EquipmentLiveChatScreen> {
                 children: [
                   getVerticalSpace(3.h),
                   GestureDetector(onTap: () {
-                    Get.to(()=>const AddRentalCheckOutScreen());
+                    // Get.to(()=>const AddRentalCheckOutScreen());
                   },
                     child: Container(
                       decoration: BoxDecoration(

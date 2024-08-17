@@ -49,3 +49,6 @@ class EquipmentCustomField extends StatelessWidget {
     );
   }
 }
+
+//
+

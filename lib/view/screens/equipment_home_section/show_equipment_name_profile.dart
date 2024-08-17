@@ -6,9 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:opeec/controller/utils/my_color.dart';
 import 'package:opeec/view/custom_widgets/sized_widget.dart';
+import 'package:opeec/view/screens/chat_support_section/equipment_live_chat.dart';
 import 'package:opeec/view/screens/rating_review_section/rating_review_screen.dart';
+import 'package:opeec/view/screens/rental_home_section/add_rental_checkout_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controller/utils/constant.dart';
+import 'all_equipment_store_screen.dart';
 class ShowEquipmentNameProfile extends StatefulWidget {
   const ShowEquipmentNameProfile({super.key});
   @override
@@ -41,7 +44,7 @@ class _ShowEquipmentNameProfileState extends State<ShowEquipmentNameProfile> {
               "Equipment Name",
               style: Constant.textName // Adjust this as needed
             ),
-            getVerticalSpace(5.px),getHorizontalSpace(5.px)
+           SizedBox(height: 10.px,width: 10.px,)
             // PopupMenuButton<int>(
             //   icon: const Icon(Icons.more_vert),
             //   onSelected: (int result) {
@@ -80,16 +83,33 @@ class _ShowEquipmentNameProfileState extends State<ShowEquipmentNameProfile> {
               getVerticalSpace(1.5.h),
               Row(mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage("assets/png/profileImage.png"),
-                    radius: 24,
+                  GestureDetector(onTap:(){
+                    Get.to(()=>const AllEquipmentStoreScreen());
+
+                  },
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage("assets/png/profileImage.png"),
+                      radius: 24,
+                    ),
                   ),
                   getHorizontalSpace(2.w),
-                  Text("Mohsin Shop",style: Constant.textAccountBlack1,),
+                  GestureDetector(onTap: () {
+                    Get.to(()=>const AllEquipmentStoreScreen());
+
+                  },
+                      child: Text("Mohsin Shop",style: Constant.textAccountBlack1,)),
                 Spacer(),
-                SvgPicture.asset("assets/svg/message.svg"),
+                GestureDetector(onTap: () {
+                  Get.to(()=>const EquipmentLiveChatScreen());
+
+                },
+                    child: SvgPicture.asset("assets/svg/message.svg")),
                   getHorizontalSpace(2.w),
-                  Text("Message Owner",style: Constant.textForgotOrange,),
+                  GestureDetector(onTap: () {
+                    Get.to(()=>const EquipmentLiveChatScreen());
+
+                  },
+                      child: Text("Message Owner",style: Constant.textForgotOrange,)),
                 ],
               ),
 
@@ -221,7 +241,8 @@ class _ShowEquipmentNameProfileState extends State<ShowEquipmentNameProfile> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        // Add your deposit logic here
+                        Get.to(()=>const AddRentalCheckOutScreen());
+
                       },
                       child: Text(
                         'Rent Now',

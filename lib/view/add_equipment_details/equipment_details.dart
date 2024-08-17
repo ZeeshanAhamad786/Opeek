@@ -359,7 +359,7 @@ class EquipmentDetails extends StatelessWidget {
                       ),
                       getVerticalSpace(1.2.h),
                       Text(
-                        "Location",
+                        "Postal Code",
                         style: Constant.textAddBlack6,
                       ),
                       getVerticalSpace(1.h),
@@ -473,7 +473,8 @@ class EquipmentDetails extends StatelessWidget {
                       ),
                     ],
                   );
-                } else if (stepperController.currentStep.value == 6) {
+                }
+                else if (stepperController.currentStep.value == 6) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

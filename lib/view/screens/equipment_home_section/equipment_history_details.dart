@@ -264,7 +264,7 @@ class _EquipmentHistoryDetailsState extends State<EquipmentHistoryDetails> {
                       borderRadius: BorderRadius.circular(10.h),
                     ),
                     child: Text(
-                      'Deviled',
+                      'Delivered',
                       style: Constant.textCancel,
                     ),
                   ),
@@ -289,12 +289,18 @@ class _EquipmentHistoryDetailsState extends State<EquipmentHistoryDetails> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(3.5.h)),
             padding: EdgeInsets.all(
-              30.px,
+              25.px,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
+                Align(alignment: Alignment.centerRight,
+                    child: GestureDetector(onTap: () {
+                      Navigator.pop(context);
+                    },
+                        child: Icon(Icons.cancel_rounded,color: MyColor.redColor3,))),
+                getVerticalSpace(1.h),
                 Text('Do you really want to cancel the order?',
                     style: Constant.textRed1),
                 getVerticalSpace(1.h),
@@ -304,47 +310,64 @@ class _EquipmentHistoryDetailsState extends State<EquipmentHistoryDetails> {
                   textAlign: TextAlign.center,
                 ),
                 getVerticalSpace(3.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.px),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: MyColor.redColor3,
-                            borderRadius: BorderRadius.circular(2.h),
-                          ),
-                          child: Text('Yes', style: Constant.textCancel),
-                        ),
-                      ),
+                GestureDetector(
+                  onTap: () {
+                    showAlertDialog1(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.px),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: MyColor.orangeColor,
+                      borderRadius: BorderRadius.circular(1.h),
                     ),
-
-                    getHorizontalSpace(1.h),
-                    // Replaced custom method with SizedBox for simplicity
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          showAlertDialog1(context);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.px),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: MyColor.orangeColor,
-                            borderRadius: BorderRadius.circular(2.h),
-                          ),
-                          child: Text(
-                            'Continue',
-                            style: Constant.textCancel,
-                          ),
-                        ),
-                      ),
+                    child: Text(
+                      'Continue',
+                      style: Constant.textCancel,
                     ),
-                  ],
+                  ),
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Expanded(
+                //       child: GestureDetector(
+                //         onTap: () {},
+                //         child: Container(
+                //           padding: EdgeInsets.symmetric(vertical: 8.px),
+                //           alignment: Alignment.center,
+                //           decoration: BoxDecoration(
+                //             color: MyColor.redColor3,
+                //             borderRadius: BorderRadius.circular(2.h),
+                //           ),
+                //           child: Text('Cancel', style: Constant.textCancel),
+                //         ),
+                //       ),
+                //     ),
+                //
+                //     getHorizontalSpace(1.h),
+                //     // Replaced custom method with SizedBox for simplicity
+                //     Expanded(
+                //       child: GestureDetector(
+                //         onTap: () {
+                //           showAlertDialog1(context);
+                //         },
+                //         child: Container(
+                //           padding: EdgeInsets.symmetric(vertical: 8.px),
+                //           alignment: Alignment.center,
+                //           decoration: BoxDecoration(
+                //             color: MyColor.orangeColor,
+                //             borderRadius: BorderRadius.circular(2.h),
+                //           ),
+                //           child: Text(
+                //             'Continue',
+                //             style: Constant.textCancel,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),

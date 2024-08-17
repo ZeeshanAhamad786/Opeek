@@ -131,7 +131,9 @@ class _EquipmentHomeScreenState extends State<EquipmentHomeScreen> {
                             ? const EquipmentActiveScreen()
                             : const EquipmentActiveScreenPlaceholder(),
                         const EquipmentBookedScreen(),
-                        const EquipmentActiveScreen(),
+                         Container(
+
+                         ),
                       ],
                     ),
                   ),

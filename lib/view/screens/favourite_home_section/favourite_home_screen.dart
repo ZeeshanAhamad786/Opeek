@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:opeec/view/map_section/map_view_screen.dart';
 import 'package:opeec/view/screens/equipment_home_section/show_equipment_name_profile.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../controller/utils/calender_controller.dart';
 import '../../../controller/utils/constant.dart';
 import '../../../controller/utils/my_color.dart';
+import '../../../controller/utils/range_controller.dart';
 import '../../../model/favourite_model.dart';
 import '../../custom_widgets/search_customtextfield_screen.dart';
 import '../../custom_widgets/sized_widget.dart';
@@ -27,7 +30,26 @@ class _FavouriteHomeScreenState extends State<FavouriteHomeScreen> {
     FavouriteModel(category: 'Construction', imageUrl: 'assets/png/kitSmall.png', name: 'Rotary Tool', time: '\$54/day', location: 'Kent, Utah'),
     FavouriteModel(category: 'Construction', imageUrl: 'assets/png/deliveryGlavz.png', name: 'Rotary Tool', time: '\$54/day', location: 'Kent, Utah'),
   ];
-
+  RxInt selectedIndex = 0.obs; // -1 indicates no selection
+  List<String> images = [
+    "assets/png/audio.png",
+    "assets/png/automative.png",
+    "assets/png/farming.png",
+    "assets/png/construction.png",
+    "assets/png/power.png",
+  ];
+  List<String> profileNames = [
+    "Audio",
+    "Automotive",
+    "Farming",
+    "Construction",
+    "Power",
+  ];
+  void _onRadioButtonTap(int index) {
+    selectedIndex.value = index;
+  }
+  final CalendarController calendarController = Get.put(CalendarController());
+  final RangeController rangeController = Get.put(RangeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,10 +78,14 @@ class _FavouriteHomeScreenState extends State<FavouriteHomeScreen> {
                       ),
                     ),
                     getHorizontalSpace(1.5.h),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(color: MyColor.greyColor2, borderRadius: BorderRadius.circular(8)),
-                      child: SvgPicture.asset("assets/svg/step.svg"),
+                    GestureDetector(onTap: () {
+                      showPaymentBottomSheet(context);
+                    },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(color: MyColor.greyColor2, borderRadius: BorderRadius.circular(8)),
+                        child: SvgPicture.asset("assets/svg/step.svg"),
+                      ),
                     )
                   ],
                 ),
@@ -187,6 +213,270 @@ class _FavouriteHomeScreenState extends State<FavouriteHomeScreen> {
           ),
         ],
       ),
+    );
+  }
+  final FocusNode cardNumberFocus = FocusNode();
+  final FocusNode expiryDateFocus = FocusNode();
+  final FocusNode cvvFocus = FocusNode();
+  final FocusNode cardHolderNameFocus = FocusNode();
+  void showPaymentBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 16.0,
+            right: 16.0,
+            top: 24.0,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                  child: Text(
+                    "Filter",
+                    style: Constant.textSearchOrange2,
+                  )),
+              getVerticalSpace(2.h),
+              Text(
+                "Pickup and Delivery",
+                style: Constant.textBlack6,
+              ),
+              getVerticalSpace(1.4.h),
+              Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () => _onRadioButtonTap(0),
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: selectedIndex.value == 0 ? MyColor.orangeColor1 : Colors.grey,
+                          width: 2,
+                        ),
+                      ),
+                      child: selectedIndex.value == 0
+                          ? Center(
+                        child: Icon(
+                          Icons.check,
+                          size: 14,
+                          color: MyColor.orangeColor1,
+                        ),
+                      )
+                          : null,
+                    ),
+                  ),
+                  SizedBox(width: 8), // Space between radio button and text
+                  Expanded(
+                    child: Text(
+                      'Renter Pickup/Return',
+                      style: Constant.textAddBlack6,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Space between radio buttons
+                  GestureDetector(
+                    onTap: () => _onRadioButtonTap(1),
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(2),
+                        border: Border.all(
+                          color: selectedIndex.value == 1 ? MyColor.orangeColor1 : Colors.grey,
+                          width: 2,
+                        ),
+                      ),
+                      child: selectedIndex.value == 1
+                          ? Center(
+                        child: Icon(
+                          Icons.check,
+                          size: 14,
+                          color: MyColor.orangeColor1,
+                        ),
+                      )
+                          : null,
+                    ),
+                  ),
+                  SizedBox(width: 8), // Space between radio button and text
+                  Expanded(
+                    child: Text(
+                      'Owner Pickup/Return',
+                      style: Constant.textAddBlack6,
+                    ),
+                  ),
+                ],
+              )),
+              getVerticalSpace(1.5.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Categories ",
+                    style: Constant.textEmailBlack,
+                  ),
+                  Text(
+                    "Sell all ",
+                    style: Constant.textSeeAllOrange1,
+                  ),
+                ],
+              ),
+              getVerticalSpace(1.h),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 8,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        // Your onTap code here
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 0.5.h),
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: Image.asset(
+                                images[index],
+                                height: MediaQuery.of(context).size.height / 10,
+                                width: MediaQuery.of(context).size.height / 10,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            getVerticalSpace(0.5.h),
+                            Expanded(child: Text(profileNames[index], style: Constant.textAudioBlack)),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              getVerticalSpace(1.5.h),
+              Text(
+                "Select Date",
+                style: Constant.textBlack1,
+              ),
+              Obx(() => ElevatedButton(
+                onPressed: () {
+                  calendarController.selectDate(context);
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/svg/calendar.svg",
+                      color: MyColor.orangeColor1,
+                    ),
+                    SizedBox(width: 1.w),
+                    Text(
+                      DateFormat('yyyy-MM-dd').format(calendarController.selectedDate.value),
+                      style: Constant.textLoginOrange1,
+                    ),
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: MyColor.orangeColor1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              )),
+              getVerticalSpace(1.5.h),
+              Text(
+                "Select Range",
+                style: Constant.textBlack1,
+              ),
+              getVerticalSpace(.8.h),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Radius From: ",
+                      style: TextStyle(
+                        color: MyColor.blackColor, // Main text color
+                        fontWeight: FontWeight.w400, // Make the text bold
+                        fontSize: 16.px, // Set the font size
+                      ),
+                    ),
+                    TextSpan(
+                      text: "San Francisco, California, USA.",
+                      style: TextStyle(
+                        color: MyColor.orangeColor1, // Highlighted text color
+                        fontWeight: FontWeight.w400, // Make the text bold
+                        fontSize: 16.px, // Set the font size
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              getVerticalSpace(1.h),
+              Obx(() => Column(
+                children: [
+                  Slider(
+                    min: 0,
+                    max: 20,
+                    divisions: 20,
+                    activeColor: MyColor.orangeColor1,
+                    inactiveColor: Colors.grey,
+                    value: rangeController.currentDistance.value,
+                    onChanged: (double value) {
+                      rangeController.updateDistance(value);
+                    },
+                  ),
+                  getVerticalSpace(.2.h),
+                  Text(
+                    '${rangeController.currentDistance.value.toStringAsFixed(0)} km',
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                ],
+              )),
+              getVerticalSpace(3.h),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add your deposit logic here
+                  },
+                  child: Text(
+                    'Apply Filter',
+                    style: Constant.textCancel,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColor.orangeColor2,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 2.h,
+                      horizontal: 15.w,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: MyColor.orangeColor2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              getVerticalSpace(1.h),
+              getHorizontalSpace(1.h)
+            ],
+          ),
+        );
+      },
     );
   }
 }

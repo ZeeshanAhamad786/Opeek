@@ -63,6 +63,8 @@ class Constant{
   static TextStyle textGreen=TextStyle(fontSize: 14.px,fontWeight: FontWeight.w400, color:MyColor.greenColor);
   static TextStyle textLight=TextStyle(fontSize: 11.px,fontWeight: FontWeight.w400, color:MyColor.greyColor8);
   static TextStyle textLight1=TextStyle(fontSize: 10.px,fontWeight: FontWeight.w400, color:MyColor.blackColor5);
+  static TextStyle blackColorN=TextStyle(fontSize: 16.px,fontWeight: FontWeight.w500, color:MyColor.blackColorN);
+  static TextStyle greyColor10=TextStyle(fontSize: 12.px,fontWeight: FontWeight.w400, color:MyColor.greyColor10);
 
 
 

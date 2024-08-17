@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

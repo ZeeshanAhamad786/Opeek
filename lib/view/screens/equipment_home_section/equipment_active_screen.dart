@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:opeec/view/custom_widgets/custom_elevated_button.dart';
 import 'package:opeec/view/screens/equipment_home_section/show_equipment_name.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../controller/utils/constant.dart';
 import '../../../controller/utils/my_color.dart';
 import '../../../controller/utils/stepper_controller.dart';
 import '../../../model/favourite_model.dart';
-import '../../custom_widgets/sized_widget.dart';
 import 'equipment_active_screen_placeholder.dart';
 
 class EquipmentActiveScreen extends StatelessWidget {
